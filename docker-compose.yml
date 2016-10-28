@@ -1,0 +1,20 @@
+email:
+  build: .
+  working_dir: /code
+  command: lein repl :headless :port 1234
+  dns: 172.17.0.1
+  ports:
+    - "1234:1234"
+    - "5005:5005"
+  volumes:
+    - .:/code
+  environment:
+    KAFKA_BOOTSTRAP: kafka.service.consul:9092
+    SMTP_HOST: mailcatcher.service.consul
+    SMTP_PORT: 9092
+    LEIN_REPL_HOST: 0.0.0.0
+  external_links:
+    - orgsync_kafka_1
+    - orgsync_mailcatcher_1
+    - orgsync_nginx_1
+    - orgsync_zookeeper_1
